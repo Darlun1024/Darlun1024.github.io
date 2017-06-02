@@ -68,6 +68,101 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Kotlin基本数据类型" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/02/Kotlin基本数据类型/" class="article-date">
+  <time datetime="2017-06-02T02:17:08.000Z" itemprop="datePublished">2017-06-02</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/开发笔记/">开发笔记</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/02/Kotlin基本数据类型/">Kotlin的基本数据类型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Java有8种基本数据类型分别是byte,int,long,short,float,double,char,boolean。</p>
+<p>对应的Kotlin也有Byte,Int,Long,Short,Float,Double,Char,Boolean，不过在Kotlin种这些类型也是对象。<br>这些基本数据类型有着与Java基本数据类型一致的工作方式。不过也有一些区别<br><strong>1.不能自动转换类型（想象一下Java的类可以自动转换类型么）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">val i:Int=7</div><div class="line">val d: Double = i.toDouble()</div></pre></td></tr></table></figure></p>
+<p>对于没一种基本数字类型 Kotlin 都提供了以下方法用于数据转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">toByte(): Byte</div><div class="line">toShort(): Short</div><div class="line">toInt(): Int</div><div class="line">toLong(): Long</div><div class="line">toFloat(): Float</div><div class="line">toDouble(): Double</div><div class="line">toChar(): Char</div></pre></td></tr></table></figure></p>
+<p><strong>2. Char 不能直接当做一个数字来处理（也是对象惹得祸啊）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">val c:Char=&apos;c&apos;</div><div class="line">val i: Int = c.toInt()</div></pre></td></tr></table></figure></p>
+<p><strong>3. 声明方式也有所区别</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//Kotlin数据声明和初始化</div><div class="line">var a:Int = 100</div><div class="line">var b:Long = 100L</div><div class="line">var c:Float = 100F</div><div class="line">var d:Double = 100.0</div><div class="line">//Kotlin会根据赋值自动推断数据类型</div><div class="line">var A = 100</div><div class="line">var B = 100L</div><div class="line">var C = 100F</div><div class="line">var D = 100.0</div><div class="line">//对比一下Java的声明方式</div><div class="line">int a    = 100;</div><div class="line">long b   = 100L;</div><div class="line">float c  = 100F;</div><div class="line">double d = 100.0;</div><div class="line">//Java 装箱的基本数据类型声明</div><div class="line">Int A     = new Int(a);</div><div class="line">Long B    = new Long(B);</div><div class="line">Float C   = new Float(C);</div><div class="line">Double D  = new Double(d);</div></pre></td></tr></table></figure></p>
+<p><strong>5. 位运算符也不同</strong><br>以下方法之适用于 Long 和 Int 数据类型。</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:left">Kotlin</th>
+<th style="text-align:center">Java</th>
+<th style="text-align:center">说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left">shl(bits)</td>
+<td style="text-align:center">&lt;&lt;</td>
+<td style="text-align:center">左移</td>
+</tr>
+<tr>
+<td style="text-align:left">shr(bits)</td>
+<td style="text-align:center">>></td>
+<td style="text-align:center">右移</td>
+</tr>
+<tr>
+<td style="text-align:left">ushr(bits)</td>
+<td style="text-align:center">>>></td>
+<td style="text-align:center">无符号右移</td>
+</tr>
+<tr>
+<td style="text-align:left">and(bits)</td>
+<td style="text-align:center">&amp;</td>
+<td style="text-align:center">与</td>
+</tr>
+<tr>
+<td style="text-align:left">or(bits)</td>
+<td style="text-align:center">&#124;</td>
+<td style="text-align:center">或</td>
+</tr>
+<tr>
+<td style="text-align:left">xor(bits)</td>
+<td style="text-align:center">^</td>
+<td style="text-align:center">异或</td>
+</tr>
+<tr>
+<td style="text-align:left">inv(bits)</td>
+<td style="text-align:center">!</td>
+<td style="text-align:center">取反</td>
+</tr>
+</tbody>
+</table>
+<p>[1]boolean是为了纪念英国数学家George Boole而命名的；</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/02/Kotlin基本数据类型/" data-id="cj3f7nipj0000xcy1p5xfpvg2" class="article-share-link">Share</a>
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/">Kotlin</a></li></ul>
+
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
     <article id="post-Markdown示例" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/05/31/Markdown示例/" class="article-date">
@@ -101,7 +196,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/31/Markdown示例/" data-id="cj3cfvnch0000h6y1bg4s74i7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/31/Markdown示例/" data-id="cj3dqe3hq0004s3y1dz8c63e5" class="article-share-link">Share</a>
 
       
     </footer>
@@ -143,7 +238,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/27/时间管理算法/" data-id="cj36lgp7z00064vy15d93lm15" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/27/时间管理算法/" data-id="cj3dqe3hx000as3y1dcfl6rwq" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/听书/">听书</a></li></ul>
@@ -185,7 +280,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/25/如何切换苹果系统的shell/" data-id="cj36lgp7v00054vy18f39s75h" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/25/如何切换苹果系统的shell/" data-id="cj3dqe3hu0006s3y1qlukgru5" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
@@ -225,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/24/黄金圈法则/" data-id="cj36lgp81000a4vy1qa7iwvjy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/24/黄金圈法则/" data-id="cj3dqe3hz000cs3y1f16hw246" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/听书/">听书</a></li></ul>
@@ -269,7 +364,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/24/Android Include找不到layout的问题/" data-id="cj36lgp7k00014vy14eh7tu4i" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/24/Android Include找不到layout的问题/" data-id="cj3dqe3gh0000s3y1mot8fbwm" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -315,7 +410,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/23/Kotlin/" data-id="cj36lgp7f00004vy1paleiwai" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/23/Kotlin/" data-id="cj3dqe3hj0001s3y1fqjlxo8n" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/">Kotlin</a></li></ul>
@@ -362,7 +457,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/23/hello-world/" data-id="cj36lgp7r00044vy13u0n2daq" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/23/hello-world/" data-id="cj3dqe3hr0005s3y1rgtc9m8l" class="article-share-link">Share</a>
 
       
     </footer>
@@ -401,7 +496,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Kotlin/" style="font-size: 10px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
     </div>
   </div>
 
@@ -410,7 +505,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
     </div>
   </div>
 
@@ -421,6 +516,10 @@
     <h3 class="widget-title">最新文章</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2017/06/02/Kotlin基本数据类型/">Kotlin的基本数据类型</a>
+          </li>
         
           <li>
             <a href="/2017/05/31/Markdown示例/">Markdown 示例</a>
@@ -436,10 +535,6 @@
         
           <li>
             <a href="/2017/05/24/黄金圈法则/">黄金圈法则</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/24/Android Include找不到layout的问题/">Android include &#39;You must specifiy a layout in the include tag&#39; 错误</a>
           </li>
         
       </ul>
