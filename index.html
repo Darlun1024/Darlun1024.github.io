@@ -68,6 +68,99 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-ClassNofDefException" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/14/ClassNofDefException/" class="article-date">
+  <time datetime="2017-06-14T08:30:07.000Z" itemprop="datePublished">2017-06-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/14/ClassNofDefException/">EventBus android.os.PersistableBundle错误</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　今日例行检查Bugly上报的异常数据，发现App抛出了这么一个错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">  java.lang.NoClassDefFoundError: android/os/PersistableBundle</div><div class="line">    at java.lang.Class.getDeclaredMethods(Native Method)</div><div class="line">    at java.lang.Class.getPublicMethodsRecursive(Class.java:901)</div><div class="line">    at java.lang.Class.getMethods(Class.java:884)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findUsingReflectionInSingleClass(SubscriberMethodFinder.java:157)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findUsingInfo(SubscriberMethodFinder.java:88)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findSubscriberMethods(SubscriberMethodFinder.java:64)</div><div class="line">    at org.greenrobot.eventbus.EventBus.register(EventBus.java:136)</div><div class="line">    at test.wsj.com.xxxxx.MainActivity.onCreate(MainActivity.java:19)</div><div class="line">at android.app.Activity.performCreate(Activity.java:5501)</div><div class="line">    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1088)</div><div class="line">    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2302)</div><div class="line">    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2390)</div><div class="line">    at android.app.ActivityThread.access$800(ActivityThread.java:151)</div><div class="line">    ........</div></pre></td></tr></table></figure></p>
+        
+          <p class="article-more-link">
+            <a href="/2017/06/14/ClassNofDefException/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/14/ClassNofDefException/" data-id="cj3wwuaqv0001sty1e4oflz3a" class="article-share-link">Share</a>
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-Thread" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/09/Thread/" class="article-date">
+  <time datetime="2017-06-09T00:28:00.000Z" itemprop="datePublished">2017-06-09</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Java/">Java</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/09/Thread/">Java 并发编程系列(1)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="与Thread有关的方法"><a href="#与Thread有关的方法" class="headerlink" title="与Thread有关的方法"></a>与Thread有关的方法</h2><h3 id="start"><a href="#start" class="headerlink" title="start()"></a>start()</h3><p>功能：开启线程</p>
+<h3 id="run"><a href="#run" class="headerlink" title="run()"></a>run()</h3><p>功能：线程启动后会执行run()方法内部的代码</p>
+<hr>
+<h2 id="注意：如果直接调用run-方法。它只会在当前线程中串行执行run-中的代码"><a href="#注意：如果直接调用run-方法。它只会在当前线程中串行执行run-中的代码" class="headerlink" title="注意：如果直接调用run()方法。它只会在当前线程中串行执行run()中的代码"></a><em>注意：如果直接调用run()方法。它只会在当前线程中串行执行run()中的代码</em></h2><h3 id="stop"><a href="#stop" class="headerlink" title="stop()"></a>stop()</h3><p>功能：终止线程<br>注意：stop 方法已经被废弃了，不建议使用。原因是此方法过于暴力，强行终止线程，释放线程持有的锁，可能造成一些数据不一致的问题。</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/06/09/Thread/#more">Read More</a>
+          </p>
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/09/Thread/" data-id="cj3wwuar00004sty1fdgxb7hn" class="article-share-link">Share</a>
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Java/">Java</a></li></ul>
+
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
     <article id="post-Kotlin基本数据类型" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2017/06/02/Kotlin基本数据类型/" class="article-date">
@@ -95,63 +188,16 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>Java有8种基本数据类型分别是byte,int,long,short,float,double,char,boolean。</p>
-<p>对应的Kotlin也有Byte,Int,Long,Short,Float,Double,Char,Boolean，不过在Kotlin种这些类型也是对象。<br>这些基本数据类型有着与Java基本数据类型一致的工作方式。不过也有一些区别<br><strong>1.不能自动转换类型（想象一下Java的类可以自动转换类型么）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">val i:Int=7</div><div class="line">val d: Double = i.toDouble()</div></pre></td></tr></table></figure></p>
-<p>对于没一种基本数字类型 Kotlin 都提供了以下方法用于数据转换：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">toByte(): Byte</div><div class="line">toShort(): Short</div><div class="line">toInt(): Int</div><div class="line">toLong(): Long</div><div class="line">toFloat(): Float</div><div class="line">toDouble(): Double</div><div class="line">toChar(): Char</div></pre></td></tr></table></figure></p>
-<p><strong>2. Char 不能直接当做一个数字来处理（也是对象惹得祸啊）</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">val c:Char=&apos;c&apos;</div><div class="line">val i: Int = c.toInt()</div></pre></td></tr></table></figure></p>
-<p><strong>3. 声明方式也有所区别</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">//Kotlin数据声明和初始化</div><div class="line">var a:Int = 100</div><div class="line">var b:Long = 100L</div><div class="line">var c:Float = 100F</div><div class="line">var d:Double = 100.0</div><div class="line">//Kotlin会根据赋值自动推断数据类型</div><div class="line">var A = 100</div><div class="line">var B = 100L</div><div class="line">var C = 100F</div><div class="line">var D = 100.0</div><div class="line">//对比一下Java的声明方式</div><div class="line">int a    = 100;</div><div class="line">long b   = 100L;</div><div class="line">float c  = 100F;</div><div class="line">double d = 100.0;</div><div class="line">//Java 装箱的基本数据类型声明</div><div class="line">Int A     = new Int(a);</div><div class="line">Long B    = new Long(B);</div><div class="line">Float C   = new Float(C);</div><div class="line">Double D  = new Double(d);</div></pre></td></tr></table></figure></p>
-<p><strong>5. 位运算符也不同</strong><br>以下方法之适用于 Long 和 Int 数据类型。</p>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">Kotlin</th>
-<th style="text-align:center">Java</th>
-<th style="text-align:center">说明</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">shl(bits)</td>
-<td style="text-align:center">&lt;&lt;</td>
-<td style="text-align:center">左移</td>
-</tr>
-<tr>
-<td style="text-align:left">shr(bits)</td>
-<td style="text-align:center">>></td>
-<td style="text-align:center">右移</td>
-</tr>
-<tr>
-<td style="text-align:left">ushr(bits)</td>
-<td style="text-align:center">>>></td>
-<td style="text-align:center">无符号右移</td>
-</tr>
-<tr>
-<td style="text-align:left">and(bits)</td>
-<td style="text-align:center">&amp;</td>
-<td style="text-align:center">与</td>
-</tr>
-<tr>
-<td style="text-align:left">or(bits)</td>
-<td style="text-align:center">&#124;</td>
-<td style="text-align:center">或</td>
-</tr>
-<tr>
-<td style="text-align:left">xor(bits)</td>
-<td style="text-align:center">^</td>
-<td style="text-align:center">异或</td>
-</tr>
-<tr>
-<td style="text-align:left">inv(bits)</td>
-<td style="text-align:center">!</td>
-<td style="text-align:center">取反</td>
-</tr>
-</tbody>
-</table>
-<p>[1]boolean是为了纪念英国数学家George Boole而命名的；</p>
-
+<p>对应的Kotlin也有Byte,Int,Long,Short,Float,Double,Char,Boolean，不过在Kotlin种这些类型也是对象。<br>这些基本数据类型有着与Java基本数据类型一致的工作方式。不过也有一些区别</p>
+        
+          <p class="article-more-link">
+            <a href="/2017/06/02/Kotlin基本数据类型/#more">Read More</a>
+          </p>
+        
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/02/Kotlin基本数据类型/" data-id="cj3gq7g8g0004psy14a2r4nk9" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/06/02/Kotlin基本数据类型/" data-id="cj3wwuar40006sty1z5cgbnv3" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/">Kotlin</a></li></ul>
@@ -196,7 +242,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/31/Markdown示例/" data-id="cj3gq7g8j0005psy1bkcyql4b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/31/Markdown示例/" data-id="cj3wwuarh000isty1flbimm76" class="article-share-link">Share</a>
 
       
     </footer>
@@ -238,7 +284,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/27/时间管理算法/" data-id="cj3gq7g8w000kpsy1r6v02afr" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/27/时间管理算法/" data-id="cj3wwuare000hsty1dciltx1d" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/听书/">听书</a></li></ul>
@@ -280,7 +326,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/25/如何切换苹果系统的shell/" data-id="cj3gq7g8n000apsy15hpktzgx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/25/如何切换苹果系统的shell/" data-id="cj3wwuara000csty1bevrvcfz" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
@@ -320,7 +366,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/24/黄金圈法则/" data-id="cj3gq7g8z000npsy1kqz1so04" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/24/黄金圈法则/" data-id="cj3wwuari000lsty1rwylgwic" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/听书/">听书</a></li></ul>
@@ -364,7 +410,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/24/Android Include找不到layout的问题/" data-id="cj3gq7g870000psy1v1haluet" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/24/Android Include找不到layout的问题/" data-id="cj3wwuapr0000sty1fyszavjj" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
@@ -410,7 +456,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/23/Kotlin/" data-id="cj3gq7g8b0001psy1n9mji8eo" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/23/Kotlin/" data-id="cj3wwuar20005sty1dary9xj7" class="article-share-link">Share</a>
 
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/">Kotlin</a></li></ul>
@@ -457,7 +503,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/23/hello-world/" data-id="cj3gq7g8l0006psy1jaslc3gx" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/05/23/hello-world/" data-id="cj3wwuar8000asty1do9c2wqj" class="article-share-link">Share</a>
 
       
     </footer>
@@ -476,7 +522,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">分类</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
     </div>
   </div>
 
@@ -486,7 +532,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/听书/">听书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/听书/">听书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
     </div>
   </div>
 
@@ -496,7 +542,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">标签云</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
     </div>
   </div>
 
@@ -518,6 +564,14 @@
       <ul>
         
           <li>
+            <a href="/2017/06/14/ClassNofDefException/">EventBus android.os.PersistableBundle错误</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/09/Thread/">Java 并发编程系列(1)</a>
+          </li>
+        
+          <li>
             <a href="/2017/06/02/Kotlin基本数据类型/">Kotlin的基本数据类型</a>
           </li>
         
@@ -527,14 +581,6 @@
         
           <li>
             <a href="/2017/05/27/时间管理算法/">时间管理算法</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/25/如何切换苹果系统的shell/">如何切换 mac OS系统中的shell</a>
-          </li>
-        
-          <li>
-            <a href="/2017/05/24/黄金圈法则/">黄金圈法则</a>
           </li>
         
       </ul>

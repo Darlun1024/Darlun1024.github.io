@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>EventBus android.os.PersistableBundle错误 | 渊博</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="今日例行检查Bugly上报的异常数据，发现App抛出了这么一个错误123456789101112131415  java.lang.NoClassDefFoundError: android/os/PersistableBundle    at java.lang.Class.getDeclaredMethods(Native Method)    at java.lang.Class.get">
+<meta name="keywords" content="Android">
+<meta property="og:type" content="article">
+<meta property="og:title" content="EventBus android.os.PersistableBundle错误">
+<meta property="og:url" content="http://yoursite.com/2017/06/14/ClassNofDefException/index.html">
+<meta property="og:site_name" content="渊博">
+<meta property="og:description" content="今日例行检查Bugly上报的异常数据，发现App抛出了这么一个错误123456789101112131415  java.lang.NoClassDefFoundError: android/os/PersistableBundle    at java.lang.Class.getDeclaredMethods(Native Method)    at java.lang.Class.get">
+<meta property="og:updated_time" content="2017-06-17T07:24:30.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="EventBus android.os.PersistableBundle错误">
+<meta name="twitter:description" content="今日例行检查Bugly上报的异常数据，发现App抛出了这么一个错误123456789101112131415  java.lang.NoClassDefFoundError: android/os/PersistableBundle    at java.lang.Class.getDeclaredMethods(Native Method)    at java.lang.Class.get">
+  
+    <link rel="alternate" href="/atom.xml" title="渊博" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">渊博</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">知识驱动未来</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-ClassNofDefException" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/06/14/ClassNofDefException/" class="article-date">
+  <time datetime="2017-06-14T08:30:07.000Z" itemprop="datePublished">2017-06-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      EventBus android.os.PersistableBundle错误
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>　　今日例行检查Bugly上报的异常数据，发现App抛出了这么一个错误<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">  java.lang.NoClassDefFoundError: android/os/PersistableBundle</div><div class="line">    at java.lang.Class.getDeclaredMethods(Native Method)</div><div class="line">    at java.lang.Class.getPublicMethodsRecursive(Class.java:901)</div><div class="line">    at java.lang.Class.getMethods(Class.java:884)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findUsingReflectionInSingleClass(SubscriberMethodFinder.java:157)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findUsingInfo(SubscriberMethodFinder.java:88)</div><div class="line">    at org.greenrobot.eventbus.SubscriberMethodFinder.findSubscriberMethods(SubscriberMethodFinder.java:64)</div><div class="line">    at org.greenrobot.eventbus.EventBus.register(EventBus.java:136)</div><div class="line">    at test.wsj.com.xxxxx.MainActivity.onCreate(MainActivity.java:19)</div><div class="line">at android.app.Activity.performCreate(Activity.java:5501)</div><div class="line">    at android.app.Instrumentation.callActivityOnCreate(Instrumentation.java:1088)</div><div class="line">    at android.app.ActivityThread.performLaunchActivity(ActivityThread.java:2302)</div><div class="line">    at android.app.ActivityThread.handleLaunchActivity(ActivityThread.java:2390)</div><div class="line">    at android.app.ActivityThread.access$800(ActivityThread.java:151)</div><div class="line">    ........</div></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>从调用栈可以发现是EventBus内部调用反射方法的时候出现了问题。但是，在印象中，代码中并没有使用过<code>PersistableBundle</code>这个类（印象这个东西不太靠谱）， 在代码中查找了一下，发现是Acitivity中重写了下面的方法： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"> @Override</div><div class="line">public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) &#123;</div><div class="line">        super.onSaveInstanceState(outState, outPersistentState);</div><div class="line">    &#125;</div></pre></td></tr></table></figure>
+<p>而其它注册EventBus但是没有上报错误的Activity没有重写这个方法，问题的源头估计就在这里。<br>　　Google之，发现这个问题已经有人遇到了，解决方案也很简单，就是干掉这个方法，使用<code>onSaveInstanceState</code>代替。解决方案虽然有了，但是，本着惩前毖后、治病救人的宗旨,为以后遇到类似问题提供一个解决思路，我分析了一下这个错误产生的原因.<br>　　EventBus的工作机制各位大神已经分析的很清楚了(不懂的请移步：<a href="http://blog.csdn.net/lmj623565791/article/details/40920453" target="_blank" rel="external">http://blog.csdn.net/lmj623565791/article/details/40920453</a> )，这里不再介绍。EventBus涉及的技术大概有单例、观察者模式、Java的反射、注解等。从LogCat打印出的方法调用栈信息，我们可以发现导致这个<code>NoClassDefFoundError</code>错误的发生在调用反射方法的位置。EventBus在注册时，会通过反射方法找到带有注解 <code>@Subscribe</code> 的公开方法，在此过程中会遍历到<br><code>public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState)</code><br>    方法。PersistableBundle这个类是在Android 5.0才引入的，因此在Android版本低于5.0的手机上，Android运行库内找不着这个类，才爆出这个错误。从Bugly反馈信息来看，上传这个错误的设备系统正是Android 4.4版本的。<br>    同样的道理，如果在程序中使用Android6.0才有的新class，如代码中增加以下方法<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">public void readNetworkStats(NetworkStats stats)&#123;&#125;</div></pre></td></tr></table></figure></p>
+<p>在Android6.0以下版本系统的手机也会爆出<code>NoClassDefFoundError</code>错误。<br>因此，在开发App时，如果为兼容性考虑，新的功能和特性应该慎用。再次，以后发生这种错误，不用惊慌，只要能把问题描述清楚，解决方案也就显而易见了。</p>
+<h2 id="补充"><a href="#补充" class="headerlink" title="补充"></a>补充</h2><p>　　最近听同事提到，最新的EventBus已经可以不用反射来查找订阅的方法了，而是使用了一种更为NB的注解处理器（具体使用方法和原理可以参看 <a href="https://dev.qq.com/topic/59190e9ae315487c53deeca3" target="_blank" rel="external">https://dev.qq.com/topic/59190e9ae315487c53deeca3</a> ）。 使用注解处理器后，应用在编译的时候就会将订阅方法的信息实现存储在一个类里面，在运行的时候就不必通过反射来查找订阅方法了。使用这种方式不仅可以大大加快EventBus注册的速度，而且也能避免出现在上文中出现的错误（本人亲测可行）。实在是EventBus使用的首选姿势。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/06/14/ClassNofDefException/" data-id="cj3wwuaqv0001sty1e4oflz3a" class="article-share-link">Share</a>
+
+    <section id="comments">
+        <div id="uyan_frame"></div>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134662"></script>
+    </section>
+
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/06/09/Thread/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Java 并发编程系列(1)</div>
+    </a>
+  
+</nav>
+
+  
+ 
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/听书/">听书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/06/14/ClassNofDefException/">EventBus android.os.PersistableBundle错误</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/09/Thread/">Java 并发编程系列(1)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/02/Kotlin基本数据类型/">Kotlin的基本数据类型</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/31/Markdown示例/">Markdown 示例</a>
+          </li>
+        
+          <li>
+            <a href="/2017/05/27/时间管理算法/">时间管理算法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Darren<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
