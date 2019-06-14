@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>在Mac上搭建Https服务 | 渊博</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="生成 CA 私钥 openssl genrsa -out private/cakey.pem 2048  生成 CA 证书 openssl req -new -x509 -key private/cakey.pem -out cacert.pem -days 3650  输入如命令后，会依次让你输入国家名称，省名，城市名称，单位名称，部门名称，服务器名，电子邮件地址1234567Country N">
+<meta property="og:type" content="article">
+<meta property="og:title" content="在Mac上搭建Https服务">
+<meta property="og:url" content="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/index.html">
+<meta property="og:site_name" content="渊博">
+<meta property="og:description" content="生成 CA 私钥 openssl genrsa -out private/cakey.pem 2048  生成 CA 证书 openssl req -new -x509 -key private/cakey.pem -out cacert.pem -days 3650  输入如命令后，会依次让你输入国家名称，省名，城市名称，单位名称，部门名称，服务器名，电子邮件地址1234567Country N">
+<meta property="og:updated_time" content="2019-06-14T00:59:33.679Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="在Mac上搭建Https服务">
+<meta name="twitter:description" content="生成 CA 私钥 openssl genrsa -out private/cakey.pem 2048  生成 CA 证书 openssl req -new -x509 -key private/cakey.pem -out cacert.pem -days 3650  输入如命令后，会依次让你输入国家名称，省名，城市名称，单位名称，部门名称，服务器名，电子邮件地址1234567Country N">
+  
+    <link rel="alternate" href="/atom.xml" title="渊博" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">渊博</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">知识驱动未来</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-在Mac上搭建Https服务" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/05/17/在Mac上搭建Https服务/" class="article-date">
+  <time datetime="2018-05-17T03:12:30.000Z" itemprop="datePublished">2018-05-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      在Mac上搭建Https服务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="生成-CA-私钥"><a href="#生成-CA-私钥" class="headerlink" title="生成 CA 私钥"></a>生成 CA 私钥</h3><blockquote>
+<p>openssl genrsa -out private/cakey.pem 2048</p>
+</blockquote>
+<h3 id="生成-CA-证书"><a href="#生成-CA-证书" class="headerlink" title="生成 CA 证书"></a>生成 CA 证书</h3><blockquote>
+<p>openssl req -new -x509 -key private/cakey.pem -out cacert.pem -days 3650</p>
+</blockquote>
+<p>输入如命令后，会依次让你输入国家名称，省名，城市名称，单位名称，部门名称，服务器名，电子邮件地址<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">Country Name (2 letter code) []:CN</div><div class="line">State or Province Name (full name) []:Beijing</div><div class="line">Locality Name (eg, city) []:Haidian</div><div class="line">Organization Name (eg, company) []:GXSN</div><div class="line">Organizational Unit Name (eg, section) []:Mobile</div><div class="line">Common Name (eg, fully qualified host name) []:192.168.1.100</div><div class="line">Email Address []:XXX@XXX.com</div></pre></td></tr></table></figure></p>
+<h3 id="生成服务器私钥"><a href="#生成服务器私钥" class="headerlink" title="生成服务器私钥"></a>生成服务器私钥</h3><blockquote>
+<p>openssl genrsa -out server.key 4096</p>
+</blockquote>
+<h3 id="生成证书请求文件"><a href="#生成证书请求文件" class="headerlink" title="生成证书请求文件"></a>生成证书请求文件</h3><blockquote>
+<p>openssl req -new -key server.key -out server.csr</p>
+</blockquote>
+<p>同样要输入国家名称，省名，城市名称，单位名称，部门名称，服务器名，电子邮件地址等数据</p>
+<p>###新建一个openssl.cnf配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">[ req ]</div><div class="line">distinguished_name	= req_distinguished_name</div><div class="line">attributes		    = req_attributes</div><div class="line"></div><div class="line">[ ca ]</div><div class="line">default_ca       = CA_default </div><div class="line"></div><div class="line">[ CA_default ]</div><div class="line">dir          = /Users/gxsn/Desktop/SSL  # 指定了CA的根目录</div><div class="line">certs        = $dir/certs                      # 已经签发的证书的存储目录</div><div class="line">crl_dir      = $dir/crl                        # 存储证书吊销列表的目录</div><div class="line">database     = $dir/index.txt                  # 数据库的索引文件，用来存放签发证书的信息。</div><div class="line">#unique_subject  = no                          # 设置为’no’表示允许同时创建多个相同主题的证书。</div><div class="line">new_certs_dir = $dir/newcerts                  # 设置存放新签发的证书的默认位置</div><div class="line">Certificate   = $dir/cacert.pem                # 指定CA证书</div><div class="line">serial        = $dir/serial                    # 指定存放当前序列号的文件</div><div class="line">crl           = $dir/crl.pem                   # 当前的CRL</div><div class="line">private_key   = $dir/private/cakey.pem         # CA的私钥</div><div class="line">RANDFILE      = $dir/private/.rand             # 指明一个用来读写时候产生random key的seed文件。</div><div class="line">default_md              = SHA256</div><div class="line">policy          = local_ca_policy</div><div class="line"></div><div class="line">[ local_ca_policy ]</div><div class="line">commonName              = supplied</div><div class="line">stateOrProvinceName     = supplied</div><div class="line">countryName             = supplied</div><div class="line">emailAddress            = supplied</div><div class="line">organizationName        = supplied</div><div class="line">organizationalUnitName  = supplied</div><div class="line"></div><div class="line">[ req_distinguished_name ]</div><div class="line">countryName			    = CN</div><div class="line">countryName_min			= 2</div><div class="line">countryName_max			= 2</div><div class="line">stateOrProvinceName		= Beijing</div><div class="line">localityName			= Haidian</div><div class="line">organizationName		= GXSN</div><div class="line">organizationalUnitName	= Moblie</div><div class="line">commonName			    = 192.168.1.100</div><div class="line">commonName_max			= 64</div><div class="line">emailAddress			= XXX@XXX.com</div><div class="line">emailAddress_max		= 64</div><div class="line"></div><div class="line">[ req_attributes ]</div><div class="line">challengePassword		    = 123456</div><div class="line">challengePassword_min		= 4</div><div class="line">challengePassword_max		= 20</div><div class="line"></div><div class="line">//这里用于设置服务器的名称，将来再客户端验证主机合法性的时候会用到</div><div class="line">[ SAN ]</div><div class="line">subjectAltName = IP:192.168.1.100,IP:172.16.100.75,DNS:202.106.0.20,DNS:8.8.8.8</div></pre></td></tr></table></figure></p>
+<p>根据配置文件里面的设置，新建相应的文件夹和文件</p>
+<h3 id="使用自己的CA证书签发"><a href="#使用自己的CA证书签发" class="headerlink" title="使用自己的CA证书签发"></a>使用自己的CA证书签发</h3><blockquote>
+<p>openssl ca -in server.csr -out server.crt -cert cacert.pem  -keyfile private/cakey.pem -days 3650 -config openssl.cnf -extensions SAN</p>
+</blockquote>
+<p>注意这里的<code>-extensions SAN</code> 对应的配置文件中的<code>[SAN]</code></p>
+<p>生成的server.crt 即是服务器证书</p>
+<p>问题：<br>(1) <code>TXT_DB error number 2</code>问题<br>srial文件里面的数 字修改为01，删除indxt.txt.attr文件，清空index.txt的内容，重新执行命令；</p>
+<h3 id="拷贝证书"><a href="#拷贝证书" class="headerlink" title="拷贝证书"></a>拷贝证书</h3><p>将server.key 和 server.crt拷贝Apache 目录下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">/private/etc/apache2/server.crt</div><div class="line">/private/etc/apache2/server.crt</div></pre></td></tr></table></figure></p>
+<p>###修改apache配置<br>打开<code>httpd.conf</code>,取消一下三行的注释<br>LoadModule ssl_module libexec/apache2/mod_ssl.so<br>Include /private/etc/apache2/extra/httpd-vhosts.conf<br>Include /private/etc/apache2/extra/httpd-ssl.conf</p>
+<p>打开<code>extra/httpd-ssl.conf</code>文件<br>配置以下两个参数<br>SSLCertificateFile “/private/etc/apache2/server.crt”<br>SSLCertificateKeyFile “/private/etc/apache2/server.key”</p>
+<p>打开 <code>extra/httpd-vhosts.conf</code>文件，按照下面方法修改配置文件<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;VirtualHost *:443&gt;</div><div class="line">    SSLEngine on</div><div class="line">    SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL</div><div class="line">    SSLCertificateFile /private/etc/apache2/server.crt</div><div class="line">    SSLCertificateKeyFile /private/etc/apache2/server.key</div><div class="line">    ServerName 192.168.1.100 #服务器名</div><div class="line">    DocumentRoot &quot;/Library/WebServer/Documents&quot;</div><div class="line">&lt;/VirtualHost&gt;</div></pre></td></tr></table></figure></p>
+<p>###重启apache</p>
+<blockquote>
+<p>sudo apachectl restart</p>
+</blockquote>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/" data-id="cjwvdyyxs000nv7y1iqktqz9s" class="article-share-link">Share</a>
+
+    <section id="comments">
+        <div id="uyan_frame"></div>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134662"></script>
+    </section>
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2017/12/23/绕任意轴旋转球体/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+ 
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/听书/">听书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/05/17/在Mac上搭建Https服务/">在Mac上搭建Https服务</a>
+          </li>
+        
+          <li>
+            <a href="/2017/12/23/绕任意轴旋转球体/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/">Mapbox小发现-Zigzag数字压缩算法</a>
+          </li>
+        
+          <li>
+            <a href="/2017/11/08/Mapbox小发现-Actor并发模型/">Mapbox小发现-Actor并发模型</a>
+          </li>
+        
+          <li>
+            <a href="/2017/10/31/MapBox结构分析/">MapBox结构分析</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Darren<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>
