@@ -68,6 +68,86 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Android P SQLite使用wal模式的问题" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/18/Android P SQLite使用wal模式的问题/" class="article-date">
+  <time datetime="2019-06-18T09:03:50.513Z" itemprop="datePublished">2019-06-18</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-P-SQLite-查询操作失败"><a href="#Android-P-SQLite-查询操作失败" class="headerlink" title="Android P SQLite 查询操作失败"></a>Android P SQLite 查询操作失败</h1><p>标签（空格分隔）： Android SQLite</p>
+<hr>
+<h2 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h2><p>&emsp;&emsp;最近，一个发布很久且运行稳定的App突然报错，查看了错误日志，发现是一个莫名其妙的错误，解析区域范围bounds时，抛出了NumberFormatException，但是查询查询数据表，并未发现异常字符，真机调试也不会出现这种情况。我查看了一下库里面的所有数据，发现一个很奇怪的问题：<br>&emsp;&emsp;App启动的时候，会从asset内拷贝一个数据库到SD卡，这个库里面只有两张表：tab_scope和tab_point，SQL 语句 <code>select bounds from tab_scope</code> 的查询结果竟然是tab_point的code字段。结果在使用Float.parseFloat()方法将文字转换为浮点数时爆出了这个异常。</p>
+<p>&emsp;&emsp;事出反常必有妖，~_~。</p>
+<h2 id="原因分析"><a href="#原因分析" class="headerlink" title="原因分析"></a>原因分析</h2><p>我在SQLite官网找找到了这么一段话</p>
+<blockquote>
+<p>If the last connection to a database crashed, then the first new connection to open the database will start a recovery process. An exclusive lock is held during recovery. So if a third database connection tries to jump in and query while the second connection is running recovery, the third connection will get an SQLITE_BUSY error.</p>
+</blockquote>
+<p>翻译一下，大概意思就是讲加入最后一次的数据库连接被异常终止了，那么新打开的连接会启动一个恢复过程，在恢复期间会建立一个排它锁。如果这时候有第三个连接，第三个连接会收到一个 “SQLITE_BUSY” 错误。<br>不考虑锁的问题，这段话里面有个关键：”start a recovery process”。App在4.8.3版本时升级了一次数据库，tab_point就是在这个版本加进来的。那我们现在就可以设想一下这个过程了：</p>
+<ul>
+<li>Android Pie修改了SQLite库，默认启用了wal模式;<br><em>–在Android9.0以下系统的手机没有发现此问题</em>  </li>
+<li>App退出的时候并没有主动关闭数据库连接，也就是说”last connection to a database crashed”，数据库连接异常终止了；</li>
+<li>App升级后，通过拷贝的方式更新了数据库，添加了新表tab_point;<br><em>–出问题的手机都是App半年以上未更新的</em></li>
+<li>App再次启动，建立新的数据库连接后，SQLite恢复了数据库，结果只tab_point表格被恢复没了（经过测试，在tab_point执行查询时会抛出SQLiteException:no such table），只留下了tab_scope。不过由于数据库文件的内容已经发生了变化，原先存储tab_scope的空间，现在变为了tab_point，结果查询tab_scope里面的bounds，返回了tab_point内的code(这两个都是各自表内的第六个字段)。</li>
+</ul>
+<p><strong>说明：至于为什么还能正常执行查询语句，因为涉及的SQLite数据存储的结构、SQLite执行查询语句的过程，我尚不了解，这里不能解释。</strong></p>
+<h2 id="解决方案"><a href="#解决方案" class="headerlink" title="解决方案"></a>解决方案</h2><ol>
+<li>升级App后删除之前的wal文件；</li>
+<li>禁用wal模式；</li>
+<li><p>不在使用数据库后，主动条用数据库连接的close()方法；</p>
+<p>后两种方法只能预防，对于已经出现了该问题的情况，删除wal文件是最好的方法。</p>
+</li>
+</ol>
+<hr>
+<h3 id="参考文献"><a href="#参考文献" class="headerlink" title="参考文献"></a>参考文献</h3><p>【1】<a href="https://www.sqlite.org/walformat.html" target="_blank" rel="external">https://www.sqlite.org/walformat.html</a><br>【2】<a href="https://www.sqlite.org/draft/wal.html" target="_blank" rel="external">https://www.sqlite.org/draft/wal.html</a><br>【3】<a href="https://stackoverflow.com/questions/50476782/android-p-sqlite-no-such-table-error-after-copying-database-from-assets" target="_blank" rel="external">https://stackoverflow.com/questions/50476782/android-p-sqlite-no-such-table-error-after-copying-database-from-assets</a><br>【4】<a href="https://ressrc.com/2018/12/19/android-p-sqlite-no-such-table-error-after-copying-database-from-assets/" target="_blank" rel="external">https://ressrc.com/2018/12/19/android-p-sqlite-no-such-table-error-after-copying-database-from-assets/</a><br>【5】<a href="https://source.android.com/devices/tech/perf/compatibility-wal" target="_blank" rel="external">https://source.android.com/devices/tech/perf/compatibility-wal</a></p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/18/Android P SQLite使用wal模式的问题/" data-id="cjx1l1t5k0004uuy195cp370c" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-Android P SQLite 查询操作失败" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/17/Android P SQLite 查询操作失败/" class="article-date">
+  <time datetime="2019-06-17T02:13:34.612Z" itemprop="datePublished">2019-06-17</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Android-P-SQLite-查询操作失败"><a href="#Android-P-SQLite-查询操作失败" class="headerlink" title="Android P SQLite 查询操作失败"></a>Android P SQLite 查询操作失败</h1><p>标签（空格分隔）： Android SQLite</p>
+<hr>
+<p>最近，一个发布很久且运行稳定的App突然报错，查看了错误日志，发现是一个莫名其妙的错误。App内置了一个数据库，里面只有两张表：tab_scope和tab_point，SQL 语句 <code>select bounds from tab_scope</code> 的查询结果竟然是tab_point的code字段。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/17/Android P SQLite 查询操作失败/" data-id="cjx1l1t5e0001uuy105plnxfo" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
     <article id="post-在Mac上搭建Https服务" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2018/05/17/在Mac上搭建Https服务/" class="article-date">
@@ -124,7 +204,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/" data-id="cjwvdyyxs000nv7y1iqktqz9s" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/" data-id="cjx1l1t6i000uuuy1zqb5hudl" class="article-share-link">Share</a>
 
       
     </footer>
@@ -153,7 +233,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/23/绕任意轴旋转球体/" data-id="cjwvdyyyh000zv7y1rb8gw43d" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/12/23/绕任意轴旋转球体/" data-id="cjx1l1t6p0013uuy1omuff5a7" class="article-share-link">Share</a>
 
       
     </footer>
@@ -189,7 +269,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" data-id="cjwvdyyxn000gv7y1ky80e85b" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" data-id="cjx1l1t68000muuy10uo5j7nk" class="article-share-link">Share</a>
 
       
     </footer>
@@ -225,7 +305,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Actor并发模型/" data-id="cjwvdyyxo000iv7y146dow1xa" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Actor并发模型/" data-id="cjx1l1t62000huuy1x72fdi23" class="article-share-link">Share</a>
 
       
     </footer>
@@ -261,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/31/MapBox结构分析/" data-id="cjwvdyyxl000dv7y161y6iofk" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/10/31/MapBox结构分析/" data-id="cjx1l1t60000guuy1p2wgucwd" class="article-share-link">Share</a>
 
       
     </footer>
@@ -298,7 +378,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/12/高德地图加载wmts瓦片/" data-id="cjwvdyyyl0012v7y15slyzr7p" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/10/12/高德地图加载wmts瓦片/" data-id="cjx1l1t6s0014uuy1jrtjaymt" class="article-share-link">Share</a>
 
       
     </footer>
@@ -334,7 +414,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/11/Android-SQLite-一个字段存储的数据不能超过2M/" data-id="cjwvdyyx80002v7y13q2u3viy" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/08/11/Android-SQLite-一个字段存储的数据不能超过2M/" data-id="cjx1l1t5p0006uuy1qx153uxo" class="article-share-link">Share</a>
 
       
     </footer>
@@ -371,79 +451,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/25/靠谱/" data-id="cjwvdyyyp0013v7y1gn2kg4qt" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-Android动画专题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/26/Android动画专题/" class="article-date">
-  <time datetime="2017-06-26T01:19:50.000Z" itemprop="datePublished">2017-06-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/26/Android动画专题/">Android动画专题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/26/Android动画专题/" data-id="cjwvdyyxf0006v7y1jgeqpt98" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-Android-Activity-动画转场" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/23/Android-Activity-动画转场/" class="article-date">
-  <time datetime="2017-06-23T05:22:21.000Z" itemprop="datePublished">2017-06-23</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/23/Android-Activity-动画转场/">Android Activity 动画转场</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/23/Android-Activity-动画转场/" data-id="cjwvdyyw70000v7y1rszlg49g" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/07/25/靠谱/" data-id="cjx1l1t6l000yuuy1teseb6hm" class="article-share-link">Share</a>
 
       
     </footer>
@@ -495,7 +503,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
     </div>
   </div>
 
@@ -508,6 +516,14 @@
       <ul>
         
           <li>
+            <a href="/2019/06/18/Android P SQLite使用wal模式的问题/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/17/Android P SQLite 查询操作失败/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2018/05/17/在Mac上搭建Https服务/">在Mac上搭建Https服务</a>
           </li>
         
@@ -517,14 +533,6 @@
         
           <li>
             <a href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/">Mapbox小发现-Zigzag数字压缩算法</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/08/Mapbox小发现-Actor并发模型/">Mapbox小发现-Actor并发模型</a>
-          </li>
-        
-          <li>
-            <a href="/2017/10/31/MapBox结构分析/">MapBox结构分析</a>
           </li>
         
       </ul>
