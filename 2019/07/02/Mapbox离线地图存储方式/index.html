@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>渊博</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Mapbox离线地图存储方式标签（空格分隔）： Mapbox  Mapbox的离线地图使用SQLite存储。主要包含六个表：    表名 存储内容     regions 存储离线地图的样式文件，范围，级别等数据   resources 存储样式文件中的字体图片等资源   tiles 存储具体的瓦片数据   region_resources 存储region和resources的关联关系   re">
+<meta property="og:type" content="article">
+<meta property="og:title" content="渊博">
+<meta property="og:url" content="http://yoursite.com/2019/07/02/Mapbox离线地图存储方式/index.html">
+<meta property="og:site_name" content="渊博">
+<meta property="og:description" content="Mapbox离线地图存储方式标签（空格分隔）： Mapbox  Mapbox的离线地图使用SQLite存储。主要包含六个表：    表名 存储内容     regions 存储离线地图的样式文件，范围，级别等数据   resources 存储样式文件中的字体图片等资源   tiles 存储具体的瓦片数据   region_resources 存储region和resources的关联关系   re">
+<meta property="og:updated_time" content="2019-07-02T07:38:38.508Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="渊博">
+<meta name="twitter:description" content="Mapbox离线地图存储方式标签（空格分隔）： Mapbox  Mapbox的离线地图使用SQLite存储。主要包含六个表：    表名 存储内容     regions 存储离线地图的样式文件，范围，级别等数据   resources 存储样式文件中的字体图片等资源   tiles 存储具体的瓦片数据   region_resources 存储region和resources的关联关系   re">
+  
+    <link rel="alternate" href="/atom.xml" title="渊博" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">渊博</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">知识驱动未来</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="搜索"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Mapbox离线地图存储方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/02/Mapbox离线地图存储方式/" class="article-date">
+  <time datetime="2019-07-02T07:38:38.507Z" itemprop="datePublished">2019-07-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mapbox离线地图存储方式"><a href="#Mapbox离线地图存储方式" class="headerlink" title="Mapbox离线地图存储方式"></a>Mapbox离线地图存储方式</h1><p>标签（空格分隔）： Mapbox</p>
+<hr>
+<p>Mapbox的离线地图使用SQLite存储。主要包含六个表：</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>存储内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>regions</td>
+<td>存储离线地图的样式文件，范围，级别等数据</td>
+</tr>
+<tr>
+<td>resources</td>
+<td>存储样式文件中的字体图片等资源</td>
+</tr>
+<tr>
+<td>tiles</td>
+<td>存储具体的瓦片数据</td>
+</tr>
+<tr>
+<td>region_resources</td>
+<td>存储region和resources的关联关系</td>
+</tr>
+<tr>
+<td>region_tiles</td>
+<td>存储region和tiles的关联关系</td>
+</tr>
+<tr>
+<td>sqlite_sequence</td>
+<td>存储resources和tiles的统计数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="regions"><a href="#regions" class="headerlink" title="regions"></a>regions</h3><p>主要包含以下三个字段：</p>
+<ul>
+<li>id                区域编码</li>
+<li><p>definition        区域定义，是一个JSON字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;style_url&quot;:&quot;mapbox://styles/mapbox/streets-v11&quot;,</div><div class="line">    &quot;min_zoom&quot;:1.0,</div><div class="line">    &quot;max_zoom&quot;:15.0,</div><div class="line">    &quot;pixel_ratio&quot;:3.0,</div><div class="line">    &quot;include_ideographs&quot;:true,</div><div class="line">    &quot;bounds&quot;:[60.0,22.5,62.0,24.0]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>description       区域描述,是一个blob类型的字段，存储区域的名称等内容</p>
+</li>
+</ul>
+<h3 id="tiles"><a href="#tiles" class="headerlink" title="tiles"></a>tiles</h3><p>tiles存储的是离线瓦片缓存<br>以下是tiles内部的一些主要字段:<br>| 字段 | 描述|<br>| - | :– |<br>|id | 编码<br>|url_template| 瓦片下载的模板，这个很重要，是用来确定该瓦片是属于哪个数据源的，如果模板相同，瓦片数据就可以复用。<br>| z | 瓦片级别<br>| x |瓦片列号<br>| y | 瓦片行号<br>|expires|瓦片过期时间,该数据库主要职业其实是Mapbox的瓦片请求缓存库，因此包含了http请求的本地缓存需要的一些字段,后面要介绍的modified,etag都属于此类;<br>|etag | 本地缓存标识，下次去网络请求数据时，会携带该数据,服务端生成的etag如何和该值匹配,则返回状态码304,使用本地缓存即可.<br>|data|具体的瓦片数据<br>|compressed| 是否压缩<br>|accessed| 最后访问时间<br>|must_revalidate|</p>
+<h3 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h3><p>Mapbox在渲染矢量文件时需要用到一些字体和图片资源，下载离线地图时，这些数据也要下载，resources存储的就是这些数据。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td style="text-align:left">编码</td>
+</tr>
+<tr>
+<td>url</td>
+<td style="text-align:left">资源的url</td>
+</tr>
+<tr>
+<td>kind</td>
+<td style="text-align:left">资源类型</td>
+</tr>
+<tr>
+<td>expires</td>
+<td style="text-align:left">过期时间</td>
+</tr>
+<tr>
+<td>modified</td>
+<td style="text-align:left">修改时间</td>
+</tr>
+<tr>
+<td>etag</td>
+<td style="text-align:left">Entity tag 实体标识</td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align:left">资源数据</td>
+</tr>
+<tr>
+<td>compressed</td>
+<td style="text-align:left">是否压缩</td>
+</tr>
+<tr>
+<td>accessed</td>
+<td style="text-align:left">访问时间</td>
+</tr>
+<tr>
+<td>must_revalidate</td>
+<td style="text-align:left">??</td>
+</tr>
+</tbody>
+</table>
+<h3 id="region-resources"><a href="#region-resources" class="headerlink" title="region_resources"></a>region_resources</h3><p>只有两个字段:<code>region_id</code>和<code>resource_id</code>，将region和resource关联，删除离线地图时，可以通过这个表格找到对应的资源数据.</p>
+<h3 id="region-tiles"><a href="#region-tiles" class="headerlink" title="region_tiles"></a>region_tiles</h3><p>只有两个字段:<code>region_id</code>和<code>tile_id</code>，将region和tile关联，删除离线地图时，可以通过这个表格找到对应的瓦片数据.</p>
+<h3 id="sqlite-sequence"><a href="#sqlite-sequence" class="headerlink" title="sqlite_sequence"></a>sqlite_sequence</h3><p>主要存档离线数据的统计，包含瓦片数目，资源数目和区域数量</p>
+<p>Mapbox SDK已经提供了离线地图下载功能，能满足我们的要求；但是遇到特殊情况：如没有在线的地图服务，瓦片数据量太大(Mapbox SDK只支持6000个离线瓦片)的情况下，我们可以绕过MapboxSDK，直接操作数据库，管理离线地图。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/02/Mapbox离线地图存储方式/" data-id="cjxpfqf19000lmpy12bmgbnil" class="article-share-link">Share</a>
+
+    <section id="comments">
+        <div id="uyan_frame"></div>
+        <script type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=2134662"></script>
+    </section>
+
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/07/01/HyperLogLog基本原理/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title"></div>
+    </a>
+  
+</nav>
+
+  
+ 
+</article>
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Java/">Java</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Kotlin/">Kotlin</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/开发笔记/">开发笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Kotlin/">Kotlin</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/听书/">听书</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/笔记/">笔记</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 20px;">Android</a> <a href="/tags/Java/" style="font-size: 20px;">Java</a> <a href="/tags/Kotlin/" style="font-size: 20px;">Kotlin</a> <a href="/tags/听书/" style="font-size: 20px;">听书</a> <a href="/tags/笔记/" style="font-size: 10px;">笔记</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/07/02/Mapbox离线地图存储方式/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/01/HyperLogLog基本原理/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/19/Mapbox修改日志-支持自定义离线地图包/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/19/MapBox修改日志-支持经纬度投影/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/18/Android P SQLite使用wal模式的问题/">(no title)</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 Darren<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+  </div>
+</body>
+</html>

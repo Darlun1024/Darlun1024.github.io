@@ -3,19 +3,18 @@
 <head>
   <meta charset="utf-8">
   
-  <title>Kotlin 第一行代码 | 渊博</title>
+  <title>渊博</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="使用 kotlin 打印一行文本 package com.wsj.kotlin class Main {}fun main(args:Array&amp;lt;String&amp;gt;){    println(&amp;quot;hello world!&amp;quot;)} 就这么几行代码和Java的区别就有好几处1.代码后面可以没有分号；2.方法定义在class的{}外面；3.main函数不需要用static关键字限">
-<meta name="keywords" content="Kotlin">
+  <meta name="description" content="MapBox修改日志-支持经纬度投影标签（空格分隔）： GIS,Mapbox  墨卡托投影是在网络电子地图行业使用最多的投影，谷歌、百度、高德、腾讯、Mapbox,HERE，天地图…使用的都是墨卡托投影。不过总有一些不明真相的群众不能理解地图投影和地理坐标之间的关系：我们的数据都是WGS84的，不能落在墨卡托投影的地图上，我们不想做数据转换，你们必须使用经纬度投影的底图。我们之前开发地图类App一">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Kotlin 第一行代码">
-<meta property="og:url" content="http://yoursite.com/2017/05/23/Kotlin/index.html">
+<meta property="og:title" content="渊博">
+<meta property="og:url" content="http://yoursite.com/2019/06/19/MapBox修改日志-支持经纬度投影/index.html">
 <meta property="og:site_name" content="渊博">
-<meta property="og:description" content="使用 kotlin 打印一行文本 package com.wsj.kotlin class Main {}fun main(args:Array&amp;lt;String&amp;gt;){    println(&amp;quot;hello world!&amp;quot;)} 就这么几行代码和Java的区别就有好几处1.代码后面可以没有分号；2.方法定义在class的{}外面；3.main函数不需要用static关键字限">
-<meta property="og:updated_time" content="2017-06-02T02:07:36.000Z">
+<meta property="og:description" content="MapBox修改日志-支持经纬度投影标签（空格分隔）： GIS,Mapbox  墨卡托投影是在网络电子地图行业使用最多的投影，谷歌、百度、高德、腾讯、Mapbox,HERE，天地图…使用的都是墨卡托投影。不过总有一些不明真相的群众不能理解地图投影和地理坐标之间的关系：我们的数据都是WGS84的，不能落在墨卡托投影的地图上，我们不想做数据转换，你们必须使用经纬度投影的底图。我们之前开发地图类App一">
+<meta property="og:updated_time" content="2019-06-19T02:20:09.025Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Kotlin 第一行代码">
-<meta name="twitter:description" content="使用 kotlin 打印一行文本 package com.wsj.kotlin class Main {}fun main(args:Array&amp;lt;String&amp;gt;){    println(&amp;quot;hello world!&amp;quot;)} 就这么几行代码和Java的区别就有好几处1.代码后面可以没有分号；2.方法定义在class的{}外面；3.main函数不需要用static关键字限">
+<meta name="twitter:title" content="渊博">
+<meta name="twitter:description" content="MapBox修改日志-支持经纬度投影标签（空格分隔）： GIS,Mapbox  墨卡托投影是在网络电子地图行业使用最多的投影，谷歌、百度、高德、腾讯、Mapbox,HERE，天地图…使用的都是墨卡托投影。不过总有一些不明真相的群众不能理解地图投影和地理坐标之间的关系：我们的数据都是WGS84的，不能落在墨卡托投影的地图上，我们不想做数据转换，你们必须使用经纬度投影的底图。我们之前开发地图类App一">
   
     <link rel="alternate" href="/atom.xml" title="渊博" type="application/atom+xml">
   
@@ -68,41 +67,26 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main"><article id="post-Kotlin" class="article article-type-post" itemscope itemprop="blogPost">
+        <section id="main"><article id="post-MapBox修改日志-支持经纬度投影" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2017/05/23/Kotlin/" class="article-date">
-  <time datetime="2017-05-23T02:10:08.000Z" itemprop="datePublished">2017-05-23</time>
+    <a href="/2019/06/19/MapBox修改日志-支持经纬度投影/" class="article-date">
+  <time datetime="2019-06-19T02:20:09.025Z" itemprop="datePublished">2019-06-19</time>
 </a>
     
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Kotlin/">Kotlin</a>
-  </div>
-
   </div>
   <div class="article-inner">
     
     
-      <header class="article-header">
-        
-  
-    <h1 class="article-title" itemprop="name">
-      Kotlin 第一行代码
-    </h1>
-  
-
-      </header>
-    
     <div class="article-entry" itemprop="articleBody">
       
-        <h3 id="使用-kotlin-打印一行文本"><a href="#使用-kotlin-打印一行文本" class="headerlink" title="使用 kotlin 打印一行文本"></a>使用 kotlin 打印一行文本</h3><hr>
-<p><code>package com.wsj.kotlin</code></p>
-<p><code>class Main {}</code><br><code>fun main(args:Array&lt;String&gt;){</code><br>    <code>println(&quot;hello world!&quot;)</code><br><code>}</code></p>
-<p>就这么几行代码和Java的区别就有好几处<br>1.代码后面可以没有分号；<br>2.方法定义在class的{}外面；<br>3.main函数不需要用static关键字限定；<br>4.方法的定义和Java也有较大的区别 fun 方法名(参数:参数类型){方法体}</p>
+        <h1 id="MapBox修改日志-支持经纬度投影"><a href="#MapBox修改日志-支持经纬度投影" class="headerlink" title="MapBox修改日志-支持经纬度投影"></a>MapBox修改日志-支持经纬度投影</h1><p>标签（空格分隔）： GIS,Mapbox</p>
+<hr>
+<p>墨卡托投影是在网络电子地图行业使用最多的投影，谷歌、百度、高德、腾讯、Mapbox,HERE，天地图…使用的都是墨卡托投影。不过总有一些不明真相的群众不能理解地图投影和地理坐标之间的关系：我们的数据都是WGS84的，不能落在墨卡托投影的地图上，我们不想做数据转换，你们必须使用经纬度投影的底图。<br>我们之前开发地图类App一般都使用第三方商业地图SDK，譬如高德、百度，谷歌。但是人家的SDK和数据都是一体提供的，我们也无法修改其源码，虽然可以使用其它手段将经纬度投影的瓦片叠加上去，不过影像App的性能，且栅格瓦片存在变形，影像地图精度。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/05/23/Kotlin/" data-id="cjxpfqf0v0008mpy1z9h0eqsn" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/19/MapBox修改日志-支持经纬度投影/" data-id="cjxpfqf0w000ampy1daohnygy" class="article-share-link">Share</a>
 
     <section id="comments">
         <div id="uyan_frame"></div>
@@ -110,27 +94,25 @@
     </section>
 
       
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kotlin/">Kotlin</a></li></ul>
-
     </footer>
   </div>
   
     
 <nav id="article-nav">
   
-    <a href="/2017/05/24/Android Include找不到layout的问题/" id="article-nav-newer" class="article-nav-link-wrap">
+    <a href="/2019/06/19/Mapbox修改日志-支持自定义离线地图包/" id="article-nav-newer" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Newer</strong>
       <div class="article-nav-title">
         
-          Android include &#39;You must specifiy a layout in the include tag&#39; 错误
+          (no title)
         
       </div>
     </a>
   
   
-    <a href="/2017/05/23/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+    <a href="/2019/06/18/Android P SQLite使用wal模式的问题/" id="article-nav-older" class="article-nav-link-wrap">
       <strong class="article-nav-caption">Older</strong>
-      <div class="article-nav-title">Hello World</div>
+      <div class="article-nav-title"></div>
     </a>
   
 </nav>

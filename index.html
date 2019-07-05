@@ -68,6 +68,238 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Mapbox离线地图存储方式" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/02/Mapbox离线地图存储方式/" class="article-date">
+  <time datetime="2019-07-02T07:38:38.507Z" itemprop="datePublished">2019-07-02</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mapbox离线地图存储方式"><a href="#Mapbox离线地图存储方式" class="headerlink" title="Mapbox离线地图存储方式"></a>Mapbox离线地图存储方式</h1><p>标签（空格分隔）： Mapbox</p>
+<hr>
+<p>Mapbox的离线地图使用SQLite存储。主要包含六个表：</p>
+<table>
+<thead>
+<tr>
+<th>表名</th>
+<th>存储内容</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>regions</td>
+<td>存储离线地图的样式文件，范围，级别等数据</td>
+</tr>
+<tr>
+<td>resources</td>
+<td>存储样式文件中的字体图片等资源</td>
+</tr>
+<tr>
+<td>tiles</td>
+<td>存储具体的瓦片数据</td>
+</tr>
+<tr>
+<td>region_resources</td>
+<td>存储region和resources的关联关系</td>
+</tr>
+<tr>
+<td>region_tiles</td>
+<td>存储region和tiles的关联关系</td>
+</tr>
+<tr>
+<td>sqlite_sequence</td>
+<td>存储resources和tiles的统计数据</td>
+</tr>
+</tbody>
+</table>
+<h3 id="regions"><a href="#regions" class="headerlink" title="regions"></a>regions</h3><p>主要包含以下三个字段：</p>
+<ul>
+<li>id                区域编码</li>
+<li><p>definition        区域定义，是一个JSON字符串</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;style_url&quot;:&quot;mapbox://styles/mapbox/streets-v11&quot;,</div><div class="line">    &quot;min_zoom&quot;:1.0,</div><div class="line">    &quot;max_zoom&quot;:15.0,</div><div class="line">    &quot;pixel_ratio&quot;:3.0,</div><div class="line">    &quot;include_ideographs&quot;:true,</div><div class="line">    &quot;bounds&quot;:[60.0,22.5,62.0,24.0]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>description       区域描述,是一个blob类型的字段，存储区域的名称等内容</p>
+</li>
+</ul>
+<h3 id="tiles"><a href="#tiles" class="headerlink" title="tiles"></a>tiles</h3><p>tiles存储的是离线瓦片缓存<br>以下是tiles内部的一些主要字段:<br>| 字段 | 描述|<br>| - | :– |<br>|id | 编码<br>|url_template| 瓦片下载的模板，这个很重要，是用来确定该瓦片是属于哪个数据源的，如果模板相同，瓦片数据就可以复用。<br>| z | 瓦片级别<br>| x |瓦片列号<br>| y | 瓦片行号<br>|expires|瓦片过期时间,该数据库主要职业其实是Mapbox的瓦片请求缓存库，因此包含了http请求的本地缓存需要的一些字段,后面要介绍的modified,etag都属于此类;<br>|etag | 本地缓存标识，下次去网络请求数据时，会携带该数据,服务端生成的etag如何和该值匹配,则返回状态码304,使用本地缓存即可.<br>|data|具体的瓦片数据<br>|compressed| 是否压缩<br>|accessed| 最后访问时间<br>|must_revalidate|</p>
+<h3 id="resources"><a href="#resources" class="headerlink" title="resources"></a>resources</h3><p>Mapbox在渲染矢量文件时需要用到一些字体和图片资源，下载离线地图时，这些数据也要下载，resources存储的就是这些数据。</p>
+<table>
+<thead>
+<tr>
+<th>字段</th>
+<th style="text-align:left">描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>id</td>
+<td style="text-align:left">编码</td>
+</tr>
+<tr>
+<td>url</td>
+<td style="text-align:left">资源的url</td>
+</tr>
+<tr>
+<td>kind</td>
+<td style="text-align:left">资源类型</td>
+</tr>
+<tr>
+<td>expires</td>
+<td style="text-align:left">过期时间</td>
+</tr>
+<tr>
+<td>modified</td>
+<td style="text-align:left">修改时间</td>
+</tr>
+<tr>
+<td>etag</td>
+<td style="text-align:left">Entity tag 实体标识</td>
+</tr>
+<tr>
+<td>data</td>
+<td style="text-align:left">资源数据</td>
+</tr>
+<tr>
+<td>compressed</td>
+<td style="text-align:left">是否压缩</td>
+</tr>
+<tr>
+<td>accessed</td>
+<td style="text-align:left">访问时间</td>
+</tr>
+<tr>
+<td>must_revalidate</td>
+<td style="text-align:left">??</td>
+</tr>
+</tbody>
+</table>
+<h3 id="region-resources"><a href="#region-resources" class="headerlink" title="region_resources"></a>region_resources</h3><p>只有两个字段:<code>region_id</code>和<code>resource_id</code>，将region和resource关联，删除离线地图时，可以通过这个表格找到对应的资源数据.</p>
+<h3 id="region-tiles"><a href="#region-tiles" class="headerlink" title="region_tiles"></a>region_tiles</h3><p>只有两个字段:<code>region_id</code>和<code>tile_id</code>，将region和tile关联，删除离线地图时，可以通过这个表格找到对应的瓦片数据.</p>
+<h3 id="sqlite-sequence"><a href="#sqlite-sequence" class="headerlink" title="sqlite_sequence"></a>sqlite_sequence</h3><p>主要存档离线数据的统计，包含瓦片数目，资源数目和区域数量</p>
+<p>Mapbox SDK已经提供了离线地图下载功能，能满足我们的要求；但是遇到特殊情况：如没有在线的地图服务，瓦片数据量太大(Mapbox SDK只支持6000个离线瓦片)的情况下，我们可以绕过MapboxSDK，直接操作数据库，管理离线地图。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/02/Mapbox离线地图存储方式/" data-id="cjxpfqf19000lmpy12bmgbnil" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-HyperLogLog基本原理" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/07/01/HyperLogLog基本原理/" class="article-date">
+  <time datetime="2019-07-01T09:03:42.832Z" itemprop="datePublished">2019-07-01</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="HyperLogLog基本原理"><a href="#HyperLogLog基本原理" class="headerlink" title="HyperLogLog基本原理"></a>HyperLogLog基本原理</h1><p>标签（空格分隔）： Redis,HyperLogLog,伯努利过程</p>
+<hr>
+<p>以下代码就是HyperLogLog的基本实现(Python):<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">import random</div><div class="line"></div><div class="line"></div><div class="line"># 计算数字转为二进制之后，后面0的个数</div><div class="line">def zero_count(number):</div><div class="line">    zeroCount = 0</div><div class="line">    for index in range(31):</div><div class="line">        a = number &gt;&gt; index</div><div class="line">        b = a &lt;&lt; index</div><div class="line">        if b != number:</div><div class="line">            zeroCount = index</div><div class="line">            break</div><div class="line">    return zeroCount</div><div class="line"></div><div class="line"></div><div class="line">sum = 0.0</div><div class="line"># 桶的数量</div><div class="line">bucket_count = 1024</div><div class="line">bucket = [0]*bucket_count</div><div class="line"># 被统计的数量</div><div class="line">number = 100000</div><div class="line"># 构建1024个桶，每个桶生成随机数，计算最大的末位0的个数</div><div class="line">for count in range(number):</div><div class="line">    rand = random.randint(0, 2 &lt;&lt; 64-1)</div><div class="line">    index = (rand &gt;&gt; 50) % bucket_count</div><div class="line">    zeroCount = zero_count(rand)</div><div class="line">    maxZeroCount = bucket[index]</div><div class="line">    if zeroCount &gt; maxZeroCount:</div><div class="line">        bucket[index] = zeroCount</div><div class="line"></div><div class="line"># 调和平均</div><div class="line">for index in range(bucket_count):</div><div class="line">    sum += 1/bucket[index]</div><div class="line">avg = bucket_count/sum</div><div class="line"></div><div class="line">print(avg, number, bucket_count*pow(2, avg-1))</div></pre></td></tr></table></figure></p>
+<p>了解其原理首先要有一点统计学知识</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/07/01/HyperLogLog基本原理/" data-id="cjxpfqf0g0003mpy11fzyq2cy" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-Mapbox修改日志-支持自定义离线地图包" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/19/Mapbox修改日志-支持自定义离线地图包/" class="article-date">
+  <time datetime="2019-06-19T02:27:50.125Z" itemprop="datePublished">2019-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Mapbox修改日志-支持自定义离线地图包"><a href="#Mapbox修改日志-支持自定义离线地图包" class="headerlink" title="Mapbox修改日志-支持自定义离线地图包"></a>Mapbox修改日志-支持自定义离线地图包</h1><h2 id="标签（空格分隔）：-MapBox-GIS"><a href="#标签（空格分隔）：-MapBox-GIS" class="headerlink" title="标签（空格分隔）： MapBox GIS"></a>标签（空格分隔）： MapBox GIS</h2><h3 id="1-工具安装"><a href="#1-工具安装" class="headerlink" title="1.工具安装"></a>1.工具安装</h3><p>参考Mapbox github的说明安装  CMake，CCache，Ninja…</p>
+<h3 id="2-修改代码支持离线地图"><a href="#2-修改代码支持离线地图" class="headerlink" title="2.修改代码支持离线地图"></a>2.修改代码支持离线地图</h3><ul>
+<li><strong>添加新的File Source：</strong><br><code>${project}/src/mbgl/storage</code>,在此位置添加文件“mbtile_file_source.hpp”</li>
+<li><strong>添加新的File Source 实现：</strong><br><code>@{project}/platform/default/src/mbgl/storage</code>,在此处添加三个文件<br> 分别是“mbtile_file_source.cpp”，“mbtile_info.hpp”,“mbtile_info.cpp”</li>
+<li><p><strong>将新File Source添加到default_file_source.cpp：</strong><br>修改<code>${project}/platform/default/src/mbgl/storage/default_file_source.cpp</code>文件 <br></p>
+<p>  1.在头部引入<code>#include &lt;mbgl/storage/mbtile_file_source.hpp&gt;</code><br><br>  2.修改request 方法，在数据源类型判断中增加以下内容：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">if(MBTileFileSource::acceptsURL(resource.url))&#123;   </div><div class="line">    tasks[req] =  mbTileFileSource-&gt;request(resource,callback);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p><strong>将添加的文件加入cmake文件</strong><br>  在<code>${project}/platform/default/filesource-files.json</code>文的source中添加以下内容：</p>
+  <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&quot;platform/default/src/mbgl/storage/mbtile_info.cpp&quot;</div><div class="line">&quot;platform/default/src/mbgl/storage/mbtile_file_source.cpp&quot;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<blockquote>
+<p>说明:此文件会被<code>${project}/cmake/filesource.cmake</code>引用，不同的版本，文件的位置可能不同</p>
+<p>具体文件恕不能提供</p>
+</blockquote>
+<ul>
+<li>使用示例</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/19/Mapbox修改日志-支持自定义离线地图包/" data-id="cjxpfqf14000hmpy17bj9g3c5" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-MapBox修改日志-支持经纬度投影" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/06/19/MapBox修改日志-支持经纬度投影/" class="article-date">
+  <time datetime="2019-06-19T02:20:09.025Z" itemprop="datePublished">2019-06-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="MapBox修改日志-支持经纬度投影"><a href="#MapBox修改日志-支持经纬度投影" class="headerlink" title="MapBox修改日志-支持经纬度投影"></a>MapBox修改日志-支持经纬度投影</h1><p>标签（空格分隔）： GIS,Mapbox</p>
+<hr>
+<p>墨卡托投影是在网络电子地图行业使用最多的投影，谷歌、百度、高德、腾讯、Mapbox,HERE，天地图…使用的都是墨卡托投影。不过总有一些不明真相的群众不能理解地图投影和地理坐标之间的关系：我们的数据都是WGS84的，不能落在墨卡托投影的地图上，我们不想做数据转换，你们必须使用经纬度投影的底图。<br>我们之前开发地图类App一般都使用第三方商业地图SDK，譬如高德、百度，谷歌。但是人家的SDK和数据都是一体提供的，我们也无法修改其源码，虽然可以使用其它手段将经纬度投影的瓦片叠加上去，不过影像App的性能，且栅格瓦片存在变形，影像地图精度。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/06/19/MapBox修改日志-支持经纬度投影/" data-id="cjxpfqf0w000ampy1daohnygy" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
     <article id="post-Android P SQLite使用wal模式的问题" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/06/18/Android P SQLite使用wal模式的问题/" class="article-date">
@@ -109,7 +341,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2019/06/18/Android P SQLite使用wal模式的问题/" data-id="cjx1n03xd000042y197ef0ibj" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2019/06/18/Android P SQLite使用wal模式的问题/" data-id="cjxpfqf0a0001mpy1jzzz8tkj" class="article-share-link">Share</a>
 
       
     </footer>
@@ -175,7 +407,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/" data-id="cjx1n03yf000o42y1d6gd22tl" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2018/05/17/在Mac上搭建Https服务/" data-id="cjxpfqf1r0010mpy1iux03g41" class="article-share-link">Share</a>
 
       
     </footer>
@@ -204,43 +436,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/12/23/绕任意轴旋转球体/" data-id="cjx1n03yu000w42y1eu6lj6qh" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-Mapbox小发现-Zigzag数字压缩算法" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" class="article-date">
-  <time datetime="2017-11-08T06:46:42.000Z" itemprop="datePublished">2017-11-08</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/">Mapbox小发现-Zigzag数字压缩算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" data-id="cjx1n03yb000k42y19t2avhc8" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/12/23/绕任意轴旋转球体/" data-id="cjxpfqf1s0012mpy1ymykfsya" class="article-share-link">Share</a>
 
       
     </footer>
@@ -276,7 +472,43 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Actor并发模型/" data-id="cjx1n03y1000b42y1q9i6p5j7" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Actor并发模型/" data-id="cjxpfqf1m000xmpy1slyjz2tl" class="article-share-link">Share</a>
+
+      
+    </footer>
+  </div>
+  
+ 
+</article>
+
+  
+    <article id="post-Mapbox小发现-Zigzag数字压缩算法" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" class="article-date">
+  <time datetime="2017-11-08T06:46:42.000Z" itemprop="datePublished">2017-11-08</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/">Mapbox小发现-Zigzag数字压缩算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/" data-id="cjxpfqf11000fmpy12sa25c7s" class="article-share-link">Share</a>
 
       
     </footer>
@@ -312,153 +544,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/31/MapBox结构分析/" data-id="cjx1n03yd000n42y1qwv7i0uk" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-高德地图加载wmts瓦片" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/10/12/高德地图加载wmts瓦片/" class="article-date">
-  <time datetime="2017-10-12T01:09:56.000Z" itemprop="datePublished">2017-10-12</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/12/高德地图加载wmts瓦片/">高德地图加载wmts瓦片</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <pre><code>首先奉上我对高德地图的赞美：个人认为在国内的商业地图中，高德地图的配图是最漂亮滴。
-</code></pre>
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/10/12/高德地图加载wmts瓦片/" data-id="cjx1n03yx001042y1z8fhvgzg" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-Android-SQLite-一个字段存储的数据不能超过2M" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/11/Android-SQLite-一个字段存储的数据不能超过2M/" class="article-date">
-  <time datetime="2017-08-11T06:47:20.000Z" itemprop="datePublished">2017-08-11</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/11/Android-SQLite-一个字段存储的数据不能超过2M/">Android SQLite 一个字段存储的数据不能超过2M</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/08/11/Android-SQLite-一个字段存储的数据不能超过2M/" data-id="cjx1n03y7000h42y1r4usgtyq" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-靠谱" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/25/靠谱/" class="article-date">
-  <time datetime="2017-07-25T00:04:38.000Z" itemprop="datePublished">2017-07-25</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/25/靠谱/">靠谱</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><em>凡事有交代，件件有着落，事事有回音</em></p>
-
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/07/25/靠谱/" data-id="cjx1n03yz001242y1yie788on" class="article-share-link">Share</a>
-
-      
-    </footer>
-  </div>
-  
- 
-</article>
-
-  
-    <article id="post-Android动画专题" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/26/Android动画专题/" class="article-date">
-  <time datetime="2017-06-26T01:19:50.000Z" itemprop="datePublished">2017-06-26</time>
-</a>
-    
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/26/Android动画专题/">Android动画专题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        
-      
-    </div>
-    <footer class="article-footer">
-      <a data-url="http://yoursite.com/2017/06/26/Android动画专题/" data-id="cjx1n03xw000742y1nlx2y2ad" class="article-share-link">Share</a>
+      <a data-url="http://yoursite.com/2017/10/31/MapBox结构分析/" data-id="cjxpfqf1k000umpy1cbeauy6m" class="article-share-link">Share</a>
 
       
     </footer>
@@ -510,7 +596,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">归档</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/07/">七月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/06/">六月 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/05/">五月 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/12/">十二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/11/">十一月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/10/">十月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/05/">五月 2017</a></li></ul>
     </div>
   </div>
 
@@ -523,23 +609,23 @@
       <ul>
         
           <li>
+            <a href="/2019/07/02/Mapbox离线地图存储方式/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/07/01/HyperLogLog基本原理/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/19/Mapbox修改日志-支持自定义离线地图包/">(no title)</a>
+          </li>
+        
+          <li>
+            <a href="/2019/06/19/MapBox修改日志-支持经纬度投影/">(no title)</a>
+          </li>
+        
+          <li>
             <a href="/2019/06/18/Android P SQLite使用wal模式的问题/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/05/17/在Mac上搭建Https服务/">在Mac上搭建Https服务</a>
-          </li>
-        
-          <li>
-            <a href="/2017/12/23/绕任意轴旋转球体/">(no title)</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/08/Mapbox小发现-Zigzag数字压缩算法/">Mapbox小发现-Zigzag数字压缩算法</a>
-          </li>
-        
-          <li>
-            <a href="/2017/11/08/Mapbox小发现-Actor并发模型/">Mapbox小发现-Actor并发模型</a>
           </li>
         
       </ul>
