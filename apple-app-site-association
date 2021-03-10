@@ -1,0 +1,19 @@
+{
+	"applinks":{
+		"apps":[],
+		"details":[
+			{
+				"appID":"HMBF97L68R.com.goldwind.LTC",
+				"paths":["*"]
+			},
+			{
+				"appID":"LV6EETC6C7.com.gxsn.wl.dst",
+				"paths":["*"]
+			},
+			{
+				"appID":"LNK89FAZFC.com.goldwind.LES",
+				"paths":["*"]
+			}
+		]
+	}
+}
